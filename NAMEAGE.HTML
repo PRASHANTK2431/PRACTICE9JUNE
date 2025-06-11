@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Save and Load with LocalStorage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      padding: 40px;
+      text-align: center;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Save and Load User Info</h1>
+
+  <input type="text" id="name" placeholder="Enter Name">
+  <input type="number" id="age" placeholder="Enter Age"><br>
+
+  <button onclick="saveData()">Save</button>
+  <button onclick="loadData()">Load</button>
+
+  <script>
+    function saveData() {
+      const name = document.getElementById('name').value;
+      const age = document.getElementById('age').value;
+      localStorage.setItem('userName', name);
+      localStorage.setItem('userAge', age);
+      alert('Data saved!');
+    }
+
+    function loadData() {
+      const name = localStorage.getItem('userName');
+      const age = localStorage.getItem('userAge');
+      document.getElementById('name').value = name || '';
+      document.getElementById('age').value = age || '';
+    }
+  </script>
+
+</body>
+</html>

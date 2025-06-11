@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #a3d5b3;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 36px;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 70vh;
+    }
+    .weather-box {
+      font-size: 40px;
+      text-align: left;
+    }
+    .weather-box .city {
+      font-size: 30px;
+      margin-top: 10px;
+    }
+    .weather-box .time {
+      font-size: 24px;
+      margin-top: 5px;
+    }
+    .weather-box .desc {
+      font-size: 18px;
+      margin-top: 5px;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+    }
+    .search-box input {
+      padding: 10px;
+      font-size: 18px;
+      border: none;
+      border-bottom: 2px solid white;
+      background: transparent;
+      color: white;
+      outline: none;
+      width: 200px;
+    }
+    .search-box button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      border: none;
+      background-color: #d984ef;
+      color: white;
+      font-size: 16px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weather App</h1>
+  <div class="container">
+    <div class="weather-box" id="weather">
+      <div class="temp">--</div>
+      <div class="city">---</div>
+      <div class="time">--:-- ----</div>
+      <div class="desc">---</div>
+    </div>
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="Enter city">
+      <button onclick="getWeather()">Search Button</button>
+    </div>
+  </div>
+
+  <script>
+    async function getWeather() {
+      const city = document.getElementById('cityInput').value;
+      const apiKey = 'abcdhbjbuidytd75895dhgv6w3kko';
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.cod === 200) {
+        const temp = data.main.temp;
+        const cityName = data.name;
+        const weatherDesc = data.weather[0].description;
+
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const day = days[now.getDay()];
+
+        document.querySelector('.temp').textContent = Math.round(temp);
+        document.querySelector('.city').textContent = cityName;
+        document.querySelector('.time').textContent = `${hours}:${minutes} ${day}`;
+        document.querySelector('.desc').textContent = weatherDesc;
+      } else {
+        alert('City not found');
+      }
+    }
+
+    window.onload = () => {
+      document.getElementById('cityInput').value = 'Bhopal';
+      getWeather();
+    };
+  </script>
+</body>
+</html>
